@@ -13,7 +13,7 @@ class OP : P() {
     }
 }
 
-data class Person(val name: String, val age: Int) {
+data class Per(val name: String, val age: Int) {
 
     fun get(): Int = age
 }
@@ -39,7 +39,7 @@ fun main(args: Array<String>) {
     //  println("filter后集合$filter")
     //集合操作
 
-    val people = listOf(Person("Alice", 29), Person("xiao", 31), Person("Bob", 31))
+    val people = listOf(Per("Alice", 29), Per("xiao", 31), Per("Bob", 31))
     println(people.groupBy { it.age })
     println(people.count { it.age < 30 })
     println(people.find { it.age < 32 })
@@ -48,12 +48,12 @@ fun main(args: Array<String>) {
 //    println(people.all { it.age  <30 })
 //    println(people.any { it.age <30 })
 
-//    println(people.maxBy(Person::age))
-//    val names =people.filter { it.age > 30 }.map(Person::name)
+//    println(people.maxBy(Per::age))
+//    val names =people.filter { it.age > 30 }.map(Per::name)
 //    println(names)
-//    println(people.maxBy(Person::age))
-//    val person = Person("yao", 12)
-//    val p = Person::age //member reference
+//    println(people.maxBy(Per::age))
+//    val person = Per("yao", 12)
+//    val p = Per::age //member reference
 //    val p1 = person::age //bound reference
 //    val age = p(person)
 //    val age1 = p1()
