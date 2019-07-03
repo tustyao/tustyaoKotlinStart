@@ -1,5 +1,7 @@
 package com.sense.tustyao
 
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import java.time.LocalDate
 
 /**
@@ -84,28 +86,90 @@ operator fun ClosedRange<LocalDate>.iterator(): Iterator<LocalDate> =
         object : Iterator<LocalDate> {
             var current = start
             override fun hasNext() = current <= endInclusive
-            override fun next() = current.apply{
+            override fun next() = current.apply {
                 current = plusDays(1)
             }
         }
+
 data class NameComponents(val name: String,
-                          val extension: String)fun splitFilename(fullName: String): NameComponents {
+                          val extension: String)
+
+fun splitFilename(fullName: String): NameComponents {
     val (name, extension) = fullName.split('.', limit = 2)
     return NameComponents(name, extension)
 }
+
+var a = object : MouseAdapter() {
+    override fun mouseClicked(e: MouseEvent) {
+
+    }
+}
+
 /**
  * object expression
- *   用户开代替java中的匿名内部类，实现方式跟java类似 ,它能实现多个接口，语法有区别  如
+ *   代替java中的匿名内部类，实现方式跟java类似 ,它能实现多个接口，语法有区别  如
  *  var a = object : MouseAdapter(){
  *              override fun mouseClicked(e: MouseEvent) {
  *                clickCount++
  *              }
  *         }
  */
+val items = listOf(1, 2, 3, 4, 5)
 
-fun main(args: Array<String>) {
-    O.product()  //call companion object`s extension function
-    Singleton.function() //object单例对象的成员方法调用
-    println(Singleton.property)
-    product(Outter) //伴生对象实现接口，方法中参数类型为此接口类型，传入伴生对象外层类名
+// Lambdas 表达式是花括号括起来的代码块。
+fun <T, R> Collection<T>.fold(
+        initial: R,
+        combine: (acc: R, nextElement: T) -> R
+): R {
+    var accumulator: R = initial
+    for (element: T in this) {
+        accumulator = combine(accumulator, element)
+    }
+    return accumulator
+}
+
+fun foo(baz: Int, bar: Int = 0) {
+    println("bar=$bar and baz =$baz")
+}
+val sum = fun Int.(other: Int): Int = this + other
+val sum1: Int.(Int) -> Int = { other -> plus(other) }
+
+fun <Int> List<Int>.test(arg: Int, argf: Int.(Int) -> Int) {
+    var result = arg
+    for (e in this) {
+        result = argf(result, e)
+        println(result)
+    }
+}
+
+
+fun testloop() {
+    for (i in 1..10) {
+        loop@ for (j in 1..10) {
+            if (i == 2) break@loop
+            println("i = $i ,j=$j")
+        }
+    }
+
+}
+
+fun main() {
+
+//    O.product()  //call companion object`s extension function
+//    Singleton.function() //object单例对象的成员方法调用
+//    println(Singleton.property)
+//    product(Outter) //伴生对象实现接口，方法中参数类型为此接口类型，传入伴生对象外层类名
+//    foo(1)
+    items.fold(0, {
+        // 如果一个 lambda 表达式有参数，前面是参数，后跟“->”
+        acc: Int, i: Int ->
+        print("acc = $acc, i = $i, ")
+        val result = acc + i
+        println("result = $result")
+        // lambda 表达式中的最后一个表达式是返回值：
+        result
+    })
+
+    val listOf = listOf(1, 2, 3)
+    listOf.test(1) { a: Int -> a + 1 }
 }
